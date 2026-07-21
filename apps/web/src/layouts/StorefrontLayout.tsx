@@ -67,23 +67,23 @@ const StorefrontLayout: React.FC = () => {
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-full hover:bg-muted transition-colors"
+              className="hidden sm:flex p-2 rounded-full hover:bg-muted transition-colors"
               title="Toggle Theme"
             >
               {theme === 'dark' ? '☀️' : '🌙'}
             </button>
 
             {/* Compare */}
-            <Link to="/compare" className="p-2 rounded-full hover:bg-muted transition-colors relative" title="Compare Products">
+            <Link to="/compare" className="hidden sm:flex p-2 rounded-full hover:bg-muted transition-colors relative" title="Compare Products">
               <FiLayers size={20} />
             </Link>
 
             {/* Wishlist */}
-            <Link to="/wishlist" className="p-2 rounded-full hover:bg-muted transition-colors relative">
+            <Link to="/wishlist" className="hidden sm:flex p-2 rounded-full hover:bg-muted transition-colors relative">
               <FiHeart size={20} />
               {isAuthenticated && user?.wishlist && user.wishlist.length > 0 && (
                 <span className="absolute -top-1 -right-1 bg-gold text-white text-[10px] font-bold w-4.5 h-4.5 rounded-full flex items-center justify-center">
@@ -104,7 +104,7 @@ const StorefrontLayout: React.FC = () => {
 
             {/* User Account / Login */}
             {isAuthenticated ? (
-              <div className="relative group">
+              <div className="hidden sm:block relative group">
                 <Link to="/account" className="flex items-center gap-2 p-2 rounded-full hover:bg-muted transition-colors">
                   <FiUser size={20} />
                   <span className="hidden md:inline text-sm font-medium">{user?.name.split(' ')[0]}</span>
@@ -140,7 +140,7 @@ const StorefrontLayout: React.FC = () => {
                 </div>
               </div>
             ) : (
-              <Link to="/auth/login" className="btn-primary py-2 px-4 text-sm rounded-full">
+              <Link to="/auth/login" className="hidden sm:inline-flex btn-primary py-2 px-4 text-sm rounded-full">
                 Sign In
               </Link>
             )}
@@ -168,10 +168,48 @@ const StorefrontLayout: React.FC = () => {
               />
               <FiSearch className="absolute left-3.5 text-muted-foreground" size={16} />
             </form>
-            <Link to="/products" className="text-lg font-medium py-2 border-b border-border" onClick={() => setIsMobileMenuOpen(false)}>Shop</Link>
-            <Link to="/products?isNewArrival=true" className="text-lg font-medium py-2 border-b border-border" onClick={() => setIsMobileMenuOpen(false)}>New Arrivals</Link>
-            <Link to="/products?isOnSale=true" className="text-lg font-medium py-2 border-b border-border" onClick={() => setIsMobileMenuOpen(false)}>Sale</Link>
-            <Link to="/blogs" className="text-lg font-medium py-2" onClick={() => setIsMobileMenuOpen(false)}>Editorial</Link>
+            
+            <div className="flex flex-col gap-2">
+              <Link to="/products" className="text-lg font-medium py-2 border-b border-border" onClick={() => setIsMobileMenuOpen(false)}>Shop</Link>
+              <Link to="/products?isNewArrival=true" className="text-lg font-medium py-2 border-b border-border" onClick={() => setIsMobileMenuOpen(false)}>New Arrivals</Link>
+              <Link to="/products?isOnSale=true" className="text-lg font-medium py-2 border-b border-border" onClick={() => setIsMobileMenuOpen(false)}>Sale</Link>
+              <Link to="/blogs" className="text-lg font-medium py-2" onClick={() => setIsMobileMenuOpen(false)}>Editorial</Link>
+            </div>
+
+            {/* Mobile-only additional navigation actions */}
+            <div className="flex flex-col gap-1 pt-4 border-t border-border">
+              <Link to="/wishlist" className="flex items-center gap-3 text-base font-medium py-2 text-muted-foreground hover:text-foreground" onClick={() => setIsMobileMenuOpen(false)}>
+                <FiHeart size={18} /> Wishlist
+              </Link>
+              <Link to="/compare" className="flex items-center gap-3 text-base font-medium py-2 text-muted-foreground hover:text-foreground" onClick={() => setIsMobileMenuOpen(false)}>
+                <FiLayers size={18} /> Compare Products
+              </Link>
+              
+              <button 
+                onClick={() => { toggleTheme(); setIsMobileMenuOpen(false); }} 
+                className="flex items-center gap-3 text-base font-medium py-2 text-muted-foreground hover:text-foreground"
+              >
+                {theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode'}
+              </button>
+
+              {isAuthenticated ? (
+                <>
+                  <Link to="/account" className="flex items-center gap-3 text-base font-medium py-2 text-muted-foreground hover:text-foreground" onClick={() => setIsMobileMenuOpen(false)}>
+                    <FiUser size={18} /> My Account
+                  </Link>
+                  <button 
+                    onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }} 
+                    className="flex items-center gap-3 text-base font-medium text-red-500 py-2 mt-2"
+                  >
+                    <FiLogOut size={18} /> Log Out
+                  </button>
+                </>
+              ) : (
+                <Link to="/auth/login" className="btn-primary mt-4 py-2.5 rounded-xl text-center text-sm" onClick={() => setIsMobileMenuOpen(false)}>
+                  Sign In / Register
+                </Link>
+              )}
+            </div>
           </div>
         )}
       </header>
