@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/server.ts",
     "build": "echo BUILD_COMPLETE",
-    "start": "ts-node src/server.ts",
+    "start": "ts-node --transpile-only src/server.ts",
     "type-check": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
     "clean": "rm -rf dist"
