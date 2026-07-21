@@ -28,8 +28,16 @@ app.use(helmet({
 }));
 
 // ---- CORS ----
+const clientUrlCleaned = env.CLIENT_URL.endsWith('/') ? env.CLIENT_URL.slice(0, -1) : env.CLIENT_URL;
+const adminUrlCleaned = env.ADMIN_URL.endsWith('/') ? env.ADMIN_URL.slice(0, -1) : env.ADMIN_URL;
+
 app.use(cors({
-  origin: [env.CLIENT_URL, env.ADMIN_URL],
+  origin: [
+    clientUrlCleaned,
+    clientUrlCleaned + '/',
+    adminUrlCleaned,
+    adminUrlCleaned + '/'
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
