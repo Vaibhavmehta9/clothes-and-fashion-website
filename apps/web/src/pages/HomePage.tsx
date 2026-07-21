@@ -257,7 +257,15 @@ const HomePage: React.FC = () => {
                   transition={{ duration: 7 }}
                   src={banner.image}
                   alt={banner.title || 'Promo Banner'}
-                  className="w-full h-full object-cover opacity-60"
+                  className="w-full h-full object-cover opacity-60 hidden md:block"
+                />
+                <motion.img
+                  initial={{ scale: 1.1 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 7 }}
+                  src={banner.mobileImage || banner.image}
+                  alt={banner.title || 'Promo Banner'}
+                  className="w-full h-full object-cover opacity-60 block md:hidden"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent"></div>
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full h-full flex flex-col justify-center items-start gap-6 text-white">
@@ -541,18 +549,22 @@ const HomePage: React.FC = () => {
           <h2 className="text-3xl font-display font-bold">Featured Brands</h2>
           <div className="gold-line"></div>
         </motion.div>
-        <motion.div variants={staggerContainer} className="flex flex-wrap items-center justify-center gap-12 mt-6 opacity-60">
-          {brands.map((b) => (
-            <motion.div key={b._id} variants={fadeInUp} whileHover={{ scale: 1.1, opacity: 1 }} className="transition-all duration-200">
-              <Link
-                to={`/products?brand=${b._id}`}
-                className="font-display text-2xl font-bold tracking-widest text-charcoal-500 hover:text-gold"
-              >
-                {b.name.toUpperCase()}
-              </Link>
-            </motion.div>
-          ))}
-        </motion.div>
+        <div className="overflow-hidden w-full relative mt-6 opacity-60 py-4 select-none">
+          <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none"></div>
+          <div className="flex gap-16 animate-marquee whitespace-nowrap">
+            {[...brands, ...brands, ...brands].map((b, index) => (
+              <div key={`${b._id}-${index}`} className="inline-block transition-all duration-200 hover:scale-110 hover:opacity-100">
+                <Link
+                  to={`/products?brand=${b._id}`}
+                  className="font-display text-2xl font-bold tracking-widest text-charcoal-500 hover:text-primary transition-colors"
+                >
+                  {b.name.toUpperCase()}
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
       </motion.section>
     </div>
   );

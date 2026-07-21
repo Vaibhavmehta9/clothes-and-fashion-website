@@ -9,49 +9,50 @@
 
 @layer base {
   :root {
-    /* Light mode */
-    --background: 0 0% 100%;
-    --foreground: 0 0% 4%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 4%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 4%;
-    --primary: 43 52% 54%;  /* Gold */
+    /* Light mode - Luxury Warm Cream & Soft Charcoal & Editorial Rose */
+    --background: 36 20% 98%;      /* #faf8f5 (warm cream) */
+    --foreground: 0 3% 16%;        /* #2b2828 (soft charcoal) */
+    --card: 0 0% 100%;            /* #ffffff */
+    --card-foreground: 0 3% 16%;
+    --popover: 36 20% 98%;
+    --popover-foreground: 0 3% 16%;
+    --primary: 346 39% 52%;        /* #b5536a (editorial rose) */
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
-    --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 9%;
+    --secondary: 37 25% 92%;       /* #f3ede3 (warm beige contrast) */
+    --secondary-foreground: 0 3% 16%;
+    --muted: 37 25% 92%;
+    --muted-foreground: 0 3% 45%;
+    --accent: 346 39% 52%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 43 52% 54%;
-    --radius: 0.75rem;
+    --border: 37 15% 88%;          /* subtle warm border */
+    --input: 37 15% 88%;
+    --ring: 346 39% 52%;
+    --radius: 1.25rem;             /* rounded-2xl feel */
   }
 
   .dark {
-    --background: 0 0% 4%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 43 52% 54%;
-    --primary-foreground: 0 0% 4%;
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 15%;
+    /* Dark mode - Sleek Charcoal / Slate */
+    --background: 0 0% 8%;         /* dark charcoal */
+    --foreground: 36 20% 95%;      /* light cream-white */
+    --card: 0 0% 12%;
+    --card-foreground: 36 20% 95%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 36 20% 95%;
+    --primary: 346 39% 52%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 18%;
+    --secondary-foreground: 36 20% 95%;
+    --muted: 0 0% 18%;
     --muted-foreground: 0 0% 64%;
-    --accent: 0 0% 15%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 346 39% 52%;
+    --accent-foreground: 36 20% 95%;
     --destructive: 0 62% 30%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
-    --ring: 43 52% 54%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 346 39% 52%;
   }
 
   * {
@@ -65,10 +66,15 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: 'Plus Jakarta Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-serif {
+    font-family: 'Playfair Display', serif;
   }
 
   /* Custom scrollbar */
@@ -80,15 +86,16 @@
     @apply bg-gray-100 dark:bg-charcoal-900;
   }
   ::-webkit-scrollbar-thumb {
-    @apply bg-gold-400 rounded-full;
+    background-color: hsl(var(--primary));
+    border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-gold-500;
+    opacity: 0.8;
   }
 
   /* Selection color */
   ::selection {
-    background: rgba(201, 168, 76, 0.25);
+    background: rgba(181, 83, 106, 0.2);
     color: inherit;
   }
 }
@@ -97,17 +104,17 @@
   /* ---- BUTTONS ---- */
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 px-6 py-3 
-           bg-gold text-white font-semibold rounded-xl
-           hover:bg-gold-600 active:scale-95
+           bg-primary text-primary-foreground font-semibold rounded-xl
+           hover:opacity-90 active:scale-95
            transition-all duration-200 ease-out
            disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .btn-secondary {
     @apply inline-flex items-center justify-center gap-2 px-6 py-3
-           bg-transparent text-gold font-semibold rounded-xl
-           border-2 border-gold
-           hover:bg-gold hover:text-white active:scale-95
+           bg-transparent text-primary font-semibold rounded-xl
+           border-2 border-primary
+           hover:bg-primary hover:text-primary-foreground active:scale-95
            transition-all duration-200 ease-out
            disabled:opacity-50 disabled:cursor-not-allowed;
   }
@@ -130,7 +137,7 @@
   .btn-icon {
     @apply inline-flex items-center justify-center w-10 h-10 rounded-full
            bg-white/10 backdrop-blur-sm text-foreground
-           hover:bg-gold hover:text-white
+           hover:bg-primary hover:text-primary-foreground
            transition-all duration-200 ease-out border border-border;
   }
 
@@ -173,7 +180,7 @@
   .input-field {
     @apply w-full px-4 py-3 rounded-xl border border-input bg-background
            text-foreground placeholder-muted-foreground
-           focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent
+           focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
            transition-all duration-200;
   }
 
@@ -186,8 +193,8 @@
     @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium;
   }
 
-  .badge-gold {
-    @apply badge bg-gold/15 text-gold-700 dark:text-gold-300;
+  .badge-primary {
+    @apply badge bg-primary/15 text-primary;
   }
 
   .badge-green {
@@ -388,5 +395,16 @@
 
   .backdrop-blur-xs {
     backdrop-filter: blur(2px);
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .animate-marquee {
+    display: flex;
+    width: max-content;
+    animation: marquee 30s linear infinite;
   }
 }
