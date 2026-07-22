@@ -68,16 +68,19 @@ export const getProducts = asyncHandler(async (req: AuthRequest, res: Response) 
             { name: { $regex: new RegExp(`^${escaped}$`, 'i') } }
           ]
         });
+
+        const catOrConditions: Record<string, unknown>[] = [
+          { tags: { $in: [categoryStr.toLowerCase()] } },
+          { name: { $regex: new RegExp(escaped, 'i') } }
+        ];
+
         if (cat) {
           const subCats = await Category.find({ parent: cat._id }).select('_id');
           const catIds = [cat._id, ...subCats.map(c => c._id)];
-          filter.category = { $in: catIds };
-        } else {
-          filter.$or = [
-            { tags: { $in: [categoryStr.toLowerCase()] } },
-            { name: { $regex: new RegExp(escaped, 'i') } }
-          ];
+          catOrConditions.unshift({ category: { $in: catIds } });
         }
+
+        filter.$or = catOrConditions;
       } catch (err) {
         console.error('Error matching category filter:', err);
       }
@@ -97,7 +100,25 @@ export const getProducts = asyncHandler(async (req: AuthRequest, res: Response) 
             { name: { $regex: new RegExp(`^${escaped}$`, 'i') } }
           ]
         });
-        if (b) filter.brand = b._id;
+
+        const brandOrConditions: Record<string, unknown>[] = [
+          { tags: { $in: [brandStr.toLowerCase()] } },
+          { name: { $regex: new RegExp(escaped, 'i') } }
+        ];
+
+        if (b) {
+          brandOrConditions.unshift({ brand: b._id });
+        }
+
+        if (filter.$or) {
+          filter.$and = [
+            { $or: filter.$or as any[] },
+            { $or: brandOrConditions }
+          ];
+          delete filter.$or;
+        } else {
+          filter.$or = brandOrConditions;
+        }
       } catch (err) {
         console.error('Error matching brand filter:', err);
       }
