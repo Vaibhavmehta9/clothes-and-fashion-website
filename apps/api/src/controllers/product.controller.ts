@@ -56,34 +56,51 @@ export const getProducts = asyncHandler(async (req: AuthRequest, res: Response) 
   }
 
   if (category) {
-    if (mongoose.Types.ObjectId.isValid(category as string)) {
-      filter.category = category;
+    const categoryStr = String(category).trim();
+    if (mongoose.Types.ObjectId.isValid(categoryStr)) {
+      filter.category = categoryStr;
     } else {
-      const cat = await Category.findOne({
-        $or: [
-          { slug: String(category).toLowerCase() },
-          { name: { $regex: new RegExp(`^${category}$`, 'i') } }
-        ]
-      });
-      if (cat) {
-        const subCats = await Category.find({ parent: cat._id }).select('_id');
-        const catIds = [cat._id, ...subCats.map(c => c._id)];
-        filter.category = { $in: catIds };
-      } else {
-        filter.$or = [
-          { tags: { $in: [String(category).toLowerCase()] } },
-          { name: { $regex: String(category), $options: 'i' } }
-        ];
+      try {
+        const escaped = categoryStr.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const cat = await Category.findOne({
+          $or: [
+            { slug: categoryStr.toLowerCase() },
+            { name: { $regex: new RegExp(`^${escaped}$`, 'i') } }
+          ]
+        });
+        if (cat) {
+          const subCats = await Category.find({ parent: cat._id }).select('_id');
+          const catIds = [cat._id, ...subCats.map(c => c._id)];
+          filter.category = { $in: catIds };
+        } else {
+          filter.$or = [
+            { tags: { $in: [categoryStr.toLowerCase()] } },
+            { name: { $regex: new RegExp(escaped, 'i') } }
+          ];
+        }
+      } catch (err) {
+        console.error('Error matching category filter:', err);
       }
     }
   }
+
   if (brand) {
-    if (mongoose.Types.ObjectId.isValid(brand as string)) {
-      filter.brand = brand;
+    const brandStr = String(brand).trim();
+    if (mongoose.Types.ObjectId.isValid(brandStr)) {
+      filter.brand = brandStr;
     } else {
-      const b = await Brand.findOne({ slug: String(brand).toLowerCase() });
-      if (b) filter.brand = b._id;
-      else filter.brand = new mongoose.Types.ObjectId();
+      try {
+        const escaped = brandStr.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const b = await Brand.findOne({
+          $or: [
+            { slug: brandStr.toLowerCase() },
+            { name: { $regex: new RegExp(`^${escaped}$`, 'i') } }
+          ]
+        });
+        if (b) filter.brand = b._id;
+      } catch (err) {
+        console.error('Error matching brand filter:', err);
+      }
     }
   }
   if (vendor) filter.vendor = vendor;
