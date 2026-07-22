@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiArrowRight, FiShield, FiTag, FiTruck, FiRefreshCw, FiX } from 'react-icons/fi';
+import { FiArrowRight, FiShield, FiTag, FiTruck, FiRefreshCw, FiX, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import api from '@/lib/api';
 import { formatCurrency } from '@/lib/utils';
 import toast from 'react-hot-toast';
@@ -98,6 +98,18 @@ const HomePage: React.FC = () => {
   const [emailInput, setEmailInput] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const dealsScrollRef = React.useRef<HTMLDivElement>(null);
+
+  const scrollDeals = (direction: 'left' | 'right') => {
+    if (dealsScrollRef.current) {
+      const { scrollLeft, clientWidth } = dealsScrollRef.current;
+      const scrollAmount = direction === 'left' ? -clientWidth / 2 : clientWidth / 2;
+      dealsScrollRef.current.scrollTo({
+        left: scrollLeft + scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   useEffect(() => {
     // Show offer popup 2.5 seconds after page load if they haven't seen it before
@@ -365,6 +377,129 @@ const HomePage: React.FC = () => {
           ))}
         </motion.div>
       </motion.section>
+
+      {/* ⚡ DEALS TOO HOT TO MISS - CAROUSEL */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative">
+        <div className="flex items-end justify-between mb-8">
+          <div className="flex flex-col gap-2">
+            <span className="text-gold font-semibold uppercase tracking-widest text-xs">Unbeatable Offers</span>
+            <h2 className="text-3xl font-display font-bold">Deals Too Hot To Miss</h2>
+            <div className="gold-line"></div>
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => scrollDeals('left')}
+              className="p-3 rounded-full border border-gold/20 hover:border-gold bg-charcoal-950 text-gold hover:bg-gold hover:text-charcoal-950 transition-all shadow"
+              aria-label="Scroll Left"
+            >
+              <FiChevronLeft size={20} />
+            </button>
+            <button
+              onClick={() => scrollDeals('right')}
+              className="p-3 rounded-full border border-gold/20 hover:border-gold bg-charcoal-950 text-gold hover:bg-gold hover:text-charcoal-950 transition-all shadow"
+              aria-label="Scroll Right"
+            >
+              <FiChevronRight size={20} />
+            </button>
+          </div>
+        </div>
+
+        <div
+          ref={dealsScrollRef}
+          className="flex gap-6 overflow-x-auto no-scrollbar scroll-smooth pb-4 select-none snap-x snap-mandatory"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {[
+            {
+              tag: 'UNDER',
+              title: '₹999',
+              subtitle: 'STORE',
+              link: '/products?maxPrice=999',
+              bg: 'bg-gradient-to-br from-gold-950 via-gold-900 to-charcoal-950 text-white',
+              badge: 'Deal Price'
+            },
+            {
+              tag: 'FLAT',
+              title: '50% OFF',
+              subtitle: 'CLEARANCE SALE',
+              link: '/products?isOnSale=true',
+              bg: 'bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-gold-950 text-white',
+              image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=400&q=80',
+              badge: 'Clearance'
+            },
+            {
+              tag: 'EXTRA',
+              title: '15% OFF',
+              subtitle: 'ON EVERYTHING',
+              link: '/products?isOnSale=true',
+              bg: 'bg-gradient-to-br from-gold-900 via-gold-700 to-charcoal-900 text-white',
+              badge: 'Sitewide'
+            },
+            {
+              tag: 'TRENDING',
+              title: 'BRAND',
+              subtitle: 'OF THE DAY',
+              link: '/products?sort=popular',
+              bg: 'bg-gradient-to-br from-charcoal-900 via-charcoal-950 to-gold-950 text-white',
+              badge: 'Popular'
+            },
+            {
+              tag: 'UP TO',
+              title: '60% OFF',
+              subtitle: 'ON NEW STYLES',
+              link: '/products?isNewArrival=true&isOnSale=true',
+              bg: 'bg-gradient-to-br from-gold-800 via-gold-600 to-charcoal-950 text-white',
+              badge: 'Seasonal'
+            },
+            {
+              tag: 'EXCLUSIVE',
+              title: 'LUXE',
+              subtitle: 'STYLEVERSE COUTURE',
+              link: '/products?isFeatured=true',
+              bg: 'bg-gradient-to-br from-charcoal-950 via-gold-950 to-charcoal-900 text-white',
+              image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=400&q=80',
+              badge: 'Couture'
+            }
+          ].map((deal, idx) => (
+            <div
+              key={idx}
+              onClick={() => navigate(deal.link)}
+              className={`min-w-[280px] md:min-w-[320px] aspect-square rounded-3xl overflow-hidden cursor-pointer shadow-card hover:shadow-card-hover transition-all duration-300 transform hover:-translate-y-2 snap-start relative flex flex-col justify-between p-8 border border-gold/15 group ${deal.bg}`}
+            >
+              {deal.image && (
+                <>
+                  <img
+                    src={deal.image}
+                    alt={deal.title}
+                    className="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:scale-110 transition-transform duration-700 animate-fade-in"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent z-0"></div>
+                </>
+              )}
+              <div className="relative z-10 flex justify-between items-start">
+                <span className="bg-gold/15 text-gold border border-gold/30 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                  {deal.badge}
+                </span>
+                <span className="text-white/40 group-hover:text-gold transition-colors">
+                  <FiArrowRight size={22} />
+                </span>
+              </div>
+              
+              <div className="relative z-10 flex flex-col">
+                <span className="text-gold font-display font-black tracking-widest text-sm uppercase">
+                  {deal.tag}
+                </span>
+                <h3 className="text-4xl md:text-5xl font-display font-black tracking-tight leading-none my-1">
+                  {deal.title}
+                </h3>
+                <p className="text-charcoal-200 text-xs tracking-wider uppercase font-semibold">
+                  {deal.subtitle}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* NEW ARRIVALS - NOW SHOWS 8 PREMIUM ITEMS */}
       <motion.section

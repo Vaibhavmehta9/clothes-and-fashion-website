@@ -27,7 +27,9 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    const isAuthRequest = originalRequest.url?.includes('/auth/login') || originalRequest.url?.includes('/auth/register');
+
+    if (error.response?.status === 401 && !originalRequest._retry && !isAuthRequest) {
       originalRequest._retry = true;
 
       if (isRefreshing) {
@@ -59,6 +61,21 @@ api.interceptors.response.use(
       } catch {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+        localStorage.removeItem('styleverse-auth');
+        
+        try {
+          // Dynamically import to update state and prevent Zustand from writing expired state back to localStorage
+          import('@/store').then(({ useAuthStore }) => {
+            useAuthStore.setState({
+              user: null,
+              vendorProfile: null,
+              accessToken: null,
+              refreshToken: null,
+              isAuthenticated: false,
+            });
+          }).catch(() => {});
+        } catch { /* ignore */ }
+
         window.location.href = '/auth/login';
         return Promise.reject(error);
       } finally {
