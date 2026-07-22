@@ -269,23 +269,23 @@ const ProductDetailPage: React.FC = () => {
   const sizes = Array.from(new Set(product.variants.map((v) => v.size)));
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col gap-16">
-      <div className="flex flex-col md:flex-row gap-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12 flex flex-col gap-8 sm:gap-16">
+      <div className="flex flex-col md:flex-row gap-6 md:gap-12">
         {/* IMAGES COLUMN */}
         <div className="flex-1 flex flex-col gap-4">
-          <div className="aspect-[3/4] bg-muted rounded-3xl overflow-hidden border border-border">
+          <div className="aspect-[3/4] bg-muted rounded-2xl md:rounded-3xl overflow-hidden border border-border">
             <img
               src={activeImage}
               alt={product.name}
               className="w-full h-full object-cover transition-all duration-300"
             />
           </div>
-          <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+          <div className="flex gap-2 sm:gap-4 overflow-x-auto pb-2 no-scrollbar">
             {product.images.map((img, idx) => (
               <button
                 key={idx}
                 onClick={() => setActiveImage(img)}
-                className={`w-20 h-20 rounded-xl overflow-hidden shrink-0 border-2 ${activeImage === img ? 'border-gold' : 'border-border'}`}
+                className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 border-2 transition-all ${activeImage === img ? 'border-gold' : 'border-border opacity-70 hover:opacity-100'}`}
               >
                 <img src={img} alt="Product preview" className="w-full h-full object-cover" />
               </button>
@@ -294,12 +294,12 @@ const ProductDetailPage: React.FC = () => {
         </div>
 
         {/* DETAIL COLUMN */}
-        <div className="flex-1 flex flex-col gap-6">
-          <div className="flex flex-col gap-2">
+        <div className="flex-1 flex flex-col gap-5 md:gap-6">
+          <div className="flex flex-col gap-1.5">
             <span className="text-gold font-display font-bold uppercase tracking-wider text-xs">
               {product.brand?.name || 'StyleVerse Premium'}
             </span>
-            <h1 className="text-3xl font-display font-bold tracking-tight text-charcoal-950 dark:text-white leading-tight">
+            <h1 className="text-2xl sm:text-3xl font-display font-bold tracking-tight text-charcoal-950 dark:text-white leading-tight">
               {product.name}
             </h1>
             <div className="flex items-center gap-2 text-sm text-yellow-500 font-medium mt-1">
@@ -309,16 +309,16 @@ const ProductDetailPage: React.FC = () => {
           </div>
 
           {/* Price */}
-          <div className="flex items-center gap-3 border-y border-border py-4">
-            <span className="text-3xl font-display font-black text-charcoal-950 dark:text-white">
+          <div className="flex flex-wrap items-center gap-3 border-y border-border py-4">
+            <span className="text-2xl sm:text-3xl font-display font-black text-charcoal-950 dark:text-white">
               {formatCurrency(selectedVariant?.price || product.basePrice)}
             </span>
             {(selectedVariant?.mrp || product.baseMrp) > (selectedVariant?.price || product.basePrice) && (
               <>
-                <span className="text-lg text-muted-foreground line-through">
+                <span className="text-base sm:text-lg text-muted-foreground line-through">
                   {formatCurrency(selectedVariant?.mrp || product.baseMrp)}
                 </span>
-                <span className="text-sm bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold">
+                <span className="text-xs sm:text-sm bg-red-100 text-red-700 px-2.5 py-0.5 rounded-full font-bold">
                   {product.baseDiscount}% OFF
                 </span>
               </>
@@ -332,14 +332,14 @@ const ProductDetailPage: React.FC = () => {
 
           {/* Variants Selector */}
           {product.variants.length > 0 && (
-            <div className="flex flex-col gap-4">
-              <h4 className="font-semibold text-sm uppercase tracking-wider">Select Size</h4>
-              <div className="flex gap-2">
+            <div className="flex flex-col gap-3">
+              <h4 className="font-semibold text-xs uppercase tracking-wider text-muted-foreground">Select Option</h4>
+              <div className="flex flex-wrap gap-2">
                 {product.variants.map((v) => (
                   <button
                     key={v._id}
                     onClick={() => setSelectedVariant(v)}
-                    className={`px-4 py-2 border rounded-xl text-sm font-medium transition-all ${selectedVariant?._id === v._id ? 'border-gold bg-gold/5 text-gold' : 'border-border hover:border-gold/50'}`}
+                    className={`px-3.5 py-2 border rounded-xl text-xs sm:text-sm font-medium transition-all ${selectedVariant?._id === v._id ? 'border-gold bg-gold/5 text-gold font-bold shadow-sm' : 'border-border hover:border-gold/50 text-foreground'}`}
                   >
                     {v.size} ({v.color})
                   </button>
@@ -349,18 +349,18 @@ const ProductDetailPage: React.FC = () => {
           )}
 
           {/* Purchase Controls */}
-          <div className="flex items-center gap-4 mt-4">
+          <div className="flex flex-wrap items-center gap-3 mt-2 sm:mt-4">
             <div className="flex items-center border border-border rounded-xl px-3 py-2 bg-muted/20">
               <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="px-2 font-bold hover:text-gold"
+                className="px-2 font-bold hover:text-gold text-lg"
               >
                 -
               </button>
-              <span className="px-4 font-semibold text-sm">{quantity}</span>
+              <span className="px-3 font-semibold text-sm">{quantity}</span>
               <button
                 onClick={() => setQuantity(quantity + 1)}
-                className="px-2 font-bold hover:text-gold"
+                className="px-2 font-bold hover:text-gold text-lg"
               >
                 +
               </button>
@@ -368,64 +368,67 @@ const ProductDetailPage: React.FC = () => {
 
             <button
               onClick={handleAddToCart}
-              className="btn-primary flex-1 py-3.5 flex items-center justify-center gap-2 rounded-xl"
+              className="btn-primary flex-1 min-w-[140px] py-3 flex items-center justify-center gap-2 rounded-xl text-sm font-bold shadow-md hover:shadow-lg transition-all"
               disabled={!!(selectedVariant && selectedVariant.stock <= 0)}
             >
-              <FiShoppingBag /> {selectedVariant && selectedVariant.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
+              <FiShoppingBag size={18} /> {selectedVariant && selectedVariant.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
             </button>
 
-            <button
-              onClick={handleCompareToggle}
-              className={`btn-icon p-3.5 border rounded-xl hover:bg-gold hover:text-white ${isCompared ? 'bg-gold/15 text-gold border-gold' : 'border-border'}`}
-              title="Add to compare list"
-            >
-              <FiLayers />
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={handleCompareToggle}
+                className={`p-3 border rounded-xl hover:bg-gold hover:text-white transition-all ${isCompared ? 'bg-gold/15 text-gold border-gold' : 'border-border text-foreground'}`}
+                title="Add to compare list"
+              >
+                <FiLayers size={18} />
+              </button>
 
-            <button
-              onClick={handleWishlistToggle}
-              className={`btn-icon p-3.5 border rounded-xl hover:bg-gold hover:text-white ${isWishlisted ? 'bg-gold/15 text-gold border-gold' : 'border-border'}`}
-            >
-              <FiHeart fill={isWishlisted ? 'currentColor' : 'transparent'} />
-            </button>
+              <button
+                onClick={handleWishlistToggle}
+                className={`p-3 border rounded-xl hover:bg-gold hover:text-white transition-all ${isWishlisted ? 'bg-gold/15 text-gold border-gold' : 'border-border text-foreground'}`}
+                title="Save to wishlist"
+              >
+                <FiHeart size={18} fill={isWishlisted ? 'currentColor' : 'transparent'} />
+              </button>
+            </div>
           </div>
 
           {/* Policies grid */}
-          <div className="grid grid-cols-3 gap-4 border-t border-border pt-6 mt-4 text-center">
-            <div className="flex flex-col items-center gap-1.5 text-xs text-muted-foreground">
+          <div className="grid grid-cols-3 gap-2 sm:gap-4 border-t border-border pt-5 mt-2 text-center">
+            <div className="flex flex-col items-center gap-1 text-[11px] sm:text-xs text-muted-foreground">
               <FiTruck size={18} className="text-gold" />
               <span>Fast Shipping</span>
             </div>
-            <div className="flex flex-col items-center gap-1.5 text-xs text-muted-foreground">
+            <div className="flex flex-col items-center gap-1 text-[11px] sm:text-xs text-muted-foreground">
               <FiRefreshCw size={18} className="text-gold" />
               <span>30-Day Returns</span>
             </div>
-            <div className="flex flex-col items-center gap-1.5 text-xs text-muted-foreground">
+            <div className="flex flex-col items-center gap-1 text-[11px] sm:text-xs text-muted-foreground">
               <FiShield size={18} className="text-gold" />
-              <span>100% Brand Original</span>
+              <span>100% Original</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* TABS SECTION */}
-      <div className="border-t border-border pt-10">
-        <div className="flex border-b border-border mb-8 gap-8">
+      <div className="border-t border-border pt-8 sm:pt-10">
+        <div className="flex border-b border-border mb-6 gap-6 sm:gap-8 overflow-x-auto no-scrollbar whitespace-nowrap">
           <button
             onClick={() => setActiveTab('description')}
-            className={`pb-4 text-lg font-display font-bold border-b-2 transition-all ${activeTab === 'description' ? 'border-gold text-gold' : 'border-transparent text-muted-foreground hover:text-foreground'}`}
+            className={`pb-3 text-base sm:text-lg font-display font-bold border-b-2 transition-all ${activeTab === 'description' ? 'border-gold text-gold' : 'border-transparent text-muted-foreground hover:text-foreground'}`}
           >
             Description
           </button>
           <button
             onClick={() => setActiveTab('reviews')}
-            className={`pb-4 text-lg font-display font-bold border-b-2 transition-all ${activeTab === 'reviews' ? 'border-gold text-gold' : 'border-transparent text-muted-foreground hover:text-foreground'}`}
+            className={`pb-3 text-base sm:text-lg font-display font-bold border-b-2 transition-all ${activeTab === 'reviews' ? 'border-gold text-gold' : 'border-transparent text-muted-foreground hover:text-foreground'}`}
           >
             Reviews ({product.reviewCount})
           </button>
           <button
             onClick={() => setActiveTab('qa')}
-            className={`pb-4 text-lg font-display font-bold border-b-2 transition-all ${activeTab === 'qa' ? 'border-gold text-gold' : 'border-transparent text-muted-foreground hover:text-foreground'}`}
+            className={`pb-3 text-base sm:text-lg font-display font-bold border-b-2 transition-all ${activeTab === 'qa' ? 'border-gold text-gold' : 'border-transparent text-muted-foreground hover:text-foreground'}`}
           >
             Q&A
           </button>

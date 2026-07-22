@@ -491,7 +491,7 @@ const filterFallbackProducts = (term: string) => {
               </motion.div>
             ) : viewMode === 'grid' ? (
               <>
-                <motion.div layout className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-5">
+                <motion.div layout className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3.5 sm:gap-5">
                   {products.map((prod, i) => (
                     <motion.div key={prod._id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(i * 0.03, 0.5) }}
                       onClick={() => navigate(`/products/${prod.slug}`)}
@@ -502,38 +502,38 @@ const filterFallbackProducts = (term: string) => {
                         <img src={prod.thumbnail} alt={prod.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           onError={e => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&q=70'; }} />
-                        <div className="absolute top-3 left-3 flex flex-col gap-1.5">
-                          {prod.baseDiscount > 0 && <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">{prod.baseDiscount}% OFF</span>}
-                          {prod.isNewArrival && <span className="bg-primary text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded-full">NEW</span>}
+                        <div className="absolute top-2.5 left-2.5 flex flex-col gap-1.5 z-10">
+                          {prod.baseDiscount > 0 && <span className="bg-red-500 text-white text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full">{prod.baseDiscount}% OFF</span>}
+                          {prod.isNewArrival && <span className="bg-primary text-primary-foreground text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full">NEW</span>}
                         </div>
+                        <button onClick={e => toggleWishlist(prod._id, e)}
+                          className={`absolute top-2.5 right-2.5 p-2 rounded-full backdrop-blur-md transition-colors z-10 ${wishlist.has(prod._id) ? 'bg-primary text-primary-foreground' : 'bg-black/30 text-white hover:bg-primary hover:text-primary-foreground'}`}>
+                          <FiHeart size={14} className={wishlist.has(prod._id) ? 'fill-current' : ''} />
+                        </button>
                         <AnimatePresence>
                           {hoveredProduct === prod._id && (
                             <motion.div initial={{ y: 60, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 60, opacity: 0 }} transition={{ duration: 0.2 }}
-                              className="absolute bottom-0 left-0 right-0 flex gap-2 p-3 bg-gradient-to-t from-black/60 to-transparent"
+                              className="absolute bottom-0 left-0 right-0 hidden sm:flex gap-2 p-3 bg-gradient-to-t from-black/60 to-transparent"
                               onClick={e => e.stopPropagation()}>
                               <button onClick={() => navigate(`/products/${prod.slug}`)}
                                 className="flex-1 flex items-center justify-center gap-1.5 bg-white text-foreground text-xs font-semibold py-2 rounded-xl hover:bg-primary hover:text-primary-foreground transition-colors">
-                                <FiShoppingBag size={13} /> Add to Cart
-                              </button>
-                              <button onClick={e => toggleWishlist(prod._id, e)}
-                                className={`p-2 rounded-xl transition-colors ${wishlist.has(prod._id) ? 'bg-primary text-primary-foreground' : 'bg-white/90 text-foreground hover:bg-primary hover:text-primary-foreground'}`}>
-                                <FiHeart size={14} className={wishlist.has(prod._id) ? 'fill-current' : ''} />
+                                <FiShoppingBag size={13} /> View Details
                               </button>
                             </motion.div>
                           )}
                         </AnimatePresence>
                       </div>
-                      <div className="p-4 flex flex-col gap-1">
-                        {prod.brand && <span className="text-[10px] uppercase tracking-widest text-primary font-bold">{prod.brand.name}</span>}
-                        <h3 className="font-semibold text-sm line-clamp-1 group-hover:text-primary transition-colors">{prod.name}</h3>
-                        <div className="flex items-center gap-1 text-xs text-yellow-500 mt-0.5">
+                      <div className="p-3 sm:p-4 flex flex-col gap-0.5 sm:gap-1">
+                        {prod.brand && <span className="text-[9px] sm:text-[10px] uppercase tracking-widest text-primary font-bold">{prod.brand.name}</span>}
+                        <h3 className="font-semibold text-xs sm:text-sm line-clamp-1 group-hover:text-primary transition-colors">{prod.name}</h3>
+                        <div className="flex items-center gap-1 text-[11px] sm:text-xs text-yellow-500 mt-0.5">
                           <FiStar size={11} className="fill-yellow-500" />
                           <span className="font-medium">{prod.rating ? prod.rating.toFixed(1) : '–'}</span>
                           <span className="text-muted-foreground">({prod.reviewCount})</span>
                         </div>
-                        <div className="flex items-center gap-2 mt-1">
-                          <span className="font-bold text-base">{formatCurrency(prod.basePrice)}</span>
-                          {prod.baseMrp > prod.basePrice && <span className="text-xs text-muted-foreground line-through">{formatCurrency(prod.baseMrp)}</span>}
+                        <div className="flex flex-wrap items-baseline gap-1.5 mt-1">
+                          <span className="font-bold text-sm sm:text-base">{formatCurrency(prod.basePrice)}</span>
+                          {prod.baseMrp > prod.basePrice && <span className="text-[11px] sm:text-xs text-muted-foreground line-through">{formatCurrency(prod.baseMrp)}</span>}
                         </div>
                       </div>
                     </motion.div>
