@@ -59,11 +59,20 @@ export const getProducts = asyncHandler(async (req: AuthRequest, res: Response) 
     if (mongoose.Types.ObjectId.isValid(category as string)) {
       filter.category = category;
     } else {
-      const cat = await Category.findOne({ slug: category });
+      const cat = await Category.findOne({ slug: String(category).toLowerCase() });
       if (cat) filter.category = cat._id;
+      else filter.category = new mongoose.Types.ObjectId();
     }
   }
-  if (brand) filter.brand = brand;
+  if (brand) {
+    if (mongoose.Types.ObjectId.isValid(brand as string)) {
+      filter.brand = brand;
+    } else {
+      const b = await Brand.findOne({ slug: String(brand).toLowerCase() });
+      if (b) filter.brand = b._id;
+      else filter.brand = new mongoose.Types.ObjectId();
+    }
+  }
   if (vendor) filter.vendor = vendor;
   if (isOnSale === 'true') filter.isOnSale = true;
   if (isNewArrival === 'true') filter.isNewArrival = true;
