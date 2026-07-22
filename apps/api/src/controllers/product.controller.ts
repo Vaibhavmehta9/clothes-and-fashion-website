@@ -10,7 +10,7 @@ import { Review } from '../models/Review.model';
 import { AppError } from '../middleware/error.middleware';
 import { AuthRequest } from '../middleware/auth.middleware';
 import cloudinary from '../config/cloudinary';
-
+import mongoose from 'mongoose';
 // Helper: generate unique slug
 const generateUniqueSlug = async (name: string): Promise<string> => {
   const base = slugify(name, { lower: true, strict: true });
@@ -55,7 +55,14 @@ export const getProducts = asyncHandler(async (req: AuthRequest, res: Response) 
     filter.status = 'active';
   }
 
-  if (category) filter.category = category;
+  if (category) {
+    if (mongoose.Types.ObjectId.isValid(category as string)) {
+      filter.category = category;
+    } else {
+      const cat = await Category.findOne({ slug: category });
+      if (cat) filter.category = cat._id;
+    }
+  }
   if (brand) filter.brand = brand;
   if (vendor) filter.vendor = vendor;
   if (isOnSale === 'true') filter.isOnSale = true;

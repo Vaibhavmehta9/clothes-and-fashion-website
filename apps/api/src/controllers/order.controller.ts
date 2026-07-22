@@ -167,11 +167,12 @@ export const createOrder = asyncHandler(async (req: AuthRequest, res: Response) 
       link: `/orders/${order.orderNumber}`,
     });
     try {
-      await sendEmail({
+      // Fire-and-forget email sending so it doesn't block the checkout response
+      sendEmail({
         to: user.email,
         subject: `Order Confirmed – ${order.orderNumber}`,
         html: orderConfirmationEmail(order.orderNumber, user.name, total),
-      });
+      }).catch((err) => console.log('Email failed:', err.message));
     } catch { /* Email is non-critical */ }
   }
 
