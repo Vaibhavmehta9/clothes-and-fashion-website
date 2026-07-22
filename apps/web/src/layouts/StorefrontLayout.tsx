@@ -36,119 +36,111 @@ const StorefrontLayout: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground transition-colors duration-300">
       {/* HEADER */}
-      <header className="sticky top-0 z-40 bg-white/80 dark:bg-charcoal-950/80 backdrop-blur-md border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <header className="sticky top-0 z-40 bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between gap-6">
           
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <span className="text-2xl font-display font-black tracking-widest bg-clip-text text-transparent bg-gold-gradient">
+          <Link to="/" className="flex items-center gap-1 shrink-0">
+            <span className="text-[22px] font-black italic tracking-tighter text-pink-600">
               STYLEVERSE
             </span>
           </Link>
 
+          {/* Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-5 shrink-0 text-[15px] font-semibold text-gray-800">
+            <Link to="/products?category=women" className="hover:text-pink-600 transition-colors">Women</Link>
+            <Link to="/products?category=men" className="hover:text-pink-600 transition-colors">Men</Link>
+            <Link to="/products?category=kids" className="hover:text-pink-600 transition-colors">Kids</Link>
+            <Link to="/" className="hover:text-pink-600 transition-colors">Home</Link>
+            <Link to="/products" className="hover:text-pink-600 transition-colors">All Brands</Link>
+            <Link to="/blogs" className="hover:text-pink-600 transition-colors">More</Link>
+          </nav>
+
           {/* Search bar */}
-          <form onSubmit={handleSearch} className="hidden md:flex items-center flex-1 max-w-md relative">
+          <form onSubmit={handleSearch} className="hidden md:flex items-center flex-1 max-w-xl relative">
+            <FiSearch className="absolute left-3 text-gray-400" size={18} />
             <input
               type="text"
-              placeholder="Search premium fashion..."
-              className="w-full px-4 py-2 pl-10 rounded-full border border-input bg-muted/50 focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent text-sm transition-all"
+              placeholder="Search for products, styles, brands"
+              className="w-full pl-10 pr-4 py-2.5 bg-gray-100 border border-transparent rounded focus:outline-none focus:border-gray-300 focus:bg-white text-[13px] text-gray-800 transition-all placeholder:text-gray-500"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <FiSearch className="absolute left-3.5 text-muted-foreground" size={16} />
           </form>
 
-          {/* Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-6">
-            <Link to="/products" className="nav-link">Shop</Link>
-            <Link to="/products?isNewArrival=true" className="nav-link">New Arrivals</Link>
-            <Link to="/products?isOnSale=true" className="nav-link">Sale</Link>
-            <Link to="/blogs" className="nav-link">Editorial</Link>
-          </nav>
-
           {/* Actions */}
-          <div className="flex items-center gap-2 sm:gap-4">
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="hidden sm:flex p-2 rounded-full hover:bg-muted transition-colors"
-              title="Toggle Theme"
-            >
-              {theme === 'dark' ? '☀️' : '🌙'}
-            </button>
-
-            {/* Compare */}
-            <Link to="/compare" className="hidden sm:flex p-2 rounded-full hover:bg-muted transition-colors relative" title="Compare Products">
-              <FiLayers size={20} />
-            </Link>
-
-            {/* Wishlist */}
-            <Link to="/wishlist" className="hidden sm:flex p-2 rounded-full hover:bg-muted transition-colors relative">
-              <FiHeart size={20} />
-              {isAuthenticated && user?.wishlist && user.wishlist.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-gold text-white text-[10px] font-bold w-4.5 h-4.5 rounded-full flex items-center justify-center">
-                  {user.wishlist.length}
-                </span>
-              )}
-            </Link>
-
-            {/* Cart */}
-            <Link to="/cart" className="p-2 rounded-full hover:bg-muted transition-colors relative">
-              <FiShoppingBag size={20} />
-              {cart && cart.items && cart.items.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-gold text-white text-[10px] font-bold w-4.5 h-4.5 rounded-full flex items-center justify-center">
-                  {cart.items.reduce((sum, item) => sum + item.quantity, 0)}
-                </span>
-              )}
-            </Link>
-
+          <div className="flex items-center gap-6 shrink-0">
+            
             {/* User Account / Login */}
             {isAuthenticated ? (
-              <div className="hidden sm:block relative group">
-                <Link to="/account" className="flex items-center gap-2 p-2 rounded-full hover:bg-muted transition-colors">
-                  <FiUser size={20} />
-                  <span className="hidden md:inline text-sm font-medium">{user?.name.split(' ')[0]}</span>
+              <div className="hidden sm:flex relative group flex-col items-center cursor-pointer hover:text-pink-600 text-gray-700">
+                <Link to="/account" className="flex flex-col items-center">
+                  <FiUser size={22} className="mb-0.5" />
+                  <span className="text-[11px] font-medium leading-none">{user?.name.split(' ')[0] || 'Account'}</span>
                 </Link>
-                <div className="absolute right-0 mt-2 w-48 bg-card border border-border rounded-xl shadow-lg py-2 hidden group-hover:block transition-all before:absolute before:-top-2 before:left-0 before:right-0 before:h-2 before:content-[''] z-50">
+                <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-100 rounded shadow-lg py-2 hidden group-hover:block transition-all z-50">
                   {user?.role === 'vendor' && (
-                    <Link to="/vendor/dashboard" className="block px-4 py-2 text-sm hover:bg-muted transition-colors">
+                    <Link to="/vendor/dashboard" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
                       Vendor Dashboard
                     </Link>
                   )}
                   {user?.role === 'customer' && (
-                    <Link to="/vendor/register" className="block px-4 py-2 text-sm hover:bg-muted transition-colors">
+                    <Link to="/vendor/register" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
                       Sell on StyleVerse
                     </Link>
                   )}
-                  <Link to="/account" className="block px-4 py-2 text-sm hover:bg-muted transition-colors">
+                  <Link to="/account" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
                     My Profile
                   </Link>
-                  <Link to="/account/orders" className="block px-4 py-2 text-sm hover:bg-muted transition-colors">
+                  <Link to="/account/orders" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
                     My Orders
                   </Link>
                   {user?.role === 'customer' && (
-                    <Link to="/account/support" className="block px-4 py-2 text-sm hover:bg-muted transition-colors">
+                    <Link to="/account/support" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
                       Support Enquiries
                     </Link>
                   )}
                   <button
                     onClick={handleLogout}
-                    className="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors"
+                    className="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors"
                   >
                     <FiLogOut size={14} /> Log Out
                   </button>
                 </div>
               </div>
             ) : (
-              <Link to="/auth/login" className="hidden sm:inline-flex btn-primary py-2 px-4 text-sm rounded-full">
-                Sign In
+              <Link to="/auth/login" className="hidden sm:flex flex-col items-center hover:text-pink-600 text-gray-700 transition-colors">
+                <FiUser size={22} className="mb-0.5" />
+                <span className="text-[11px] font-medium leading-none">Account</span>
               </Link>
             )}
 
+            {/* Wishlist */}
+            <Link to="/wishlist" className="hidden sm:flex flex-col items-center relative hover:text-pink-600 text-gray-700 transition-colors">
+              <FiHeart size={22} className="mb-0.5" />
+              <span className="text-[11px] font-medium leading-none">Wishlist</span>
+              {isAuthenticated && user?.wishlist && user.wishlist.length > 0 && (
+                <span className="absolute -top-1 -right-2 bg-pink-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  {user.wishlist.length}
+                </span>
+              )}
+            </Link>
+
+            {/* Cart */}
+            <Link to="/cart" className="flex flex-col items-center relative hover:text-pink-600 text-gray-700 transition-colors">
+              <FiShoppingBag size={22} className="mb-0.5" />
+              <span className="text-[11px] font-medium leading-none">Cart</span>
+              {cart && cart.items && cart.items.length > 0 && (
+                <span className="absolute -top-1 -right-2 bg-pink-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  {cart.items.reduce((sum, item) => sum + item.quantity, 0)}
+                </span>
+              )}
+            </Link>
+            
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 rounded-full hover:bg-muted transition-colors"
+              className="lg:hidden flex flex-col items-center text-gray-700 hover:text-pink-600 ml-2"
             >
               {isMobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
             </button>

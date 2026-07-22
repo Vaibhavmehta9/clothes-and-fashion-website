@@ -250,133 +250,93 @@ const HomePage: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {/* HERO SECTION - MULTI-BANNER CAROUSEL */}
-      {banners.length > 0 && (
-        <section className="relative h-[80vh] flex items-center overflow-hidden bg-charcoal-950">
-          <AnimatePresence mode="wait">
-            {banners.map((banner, idx) => idx === currentIndex && (
-              <motion.div
-                key={(banner as any)._id || idx}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.7 }}
-                className="absolute inset-0 z-0"
-              >
-                <motion.img
-                  initial={{ scale: 1.1 }}
-                  animate={{ scale: 1 }}
-                  transition={{ duration: 7 }}
-                  src={banner.image}
-                  alt={banner.title || 'Promo Banner'}
-                  className="w-full h-full object-cover opacity-60 hidden md:block"
-                />
-                <motion.img
-                  initial={{ scale: 1.1 }}
-                  animate={{ scale: 1 }}
-                  transition={{ duration: 7 }}
-                  src={banner.mobileImage || banner.image}
-                  alt={banner.title || 'Promo Banner'}
-                  className="w-full h-full object-cover opacity-60 block md:hidden"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent"></div>
-                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full h-full flex flex-col justify-center items-start gap-6 text-white">
-                  <motion.span
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.2, duration: 0.5 }}
-                    className="text-gold font-display font-bold tracking-widest text-sm uppercase"
-                  >
-                    Special Offer Collection
-                  </motion.span>
-                  <motion.h1
-                    initial={{ y: 30, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.3, duration: 0.6 }}
-                    className="text-5xl md:text-7xl font-display font-black tracking-tight max-w-2xl leading-none"
-                  >
-                    {banner.title}
-                  </motion.h1>
-                  <motion.p
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.4, duration: 0.5 }}
-                    className="text-charcoal-200 text-lg md:text-xl max-w-lg font-light leading-relaxed"
-                  >
-                    {banner.subtitle || 'Discover premium handcrafted apparel designed for modern fashion enthusiasts.'}
-                  </motion.p>
-                  <motion.div
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.5, duration: 0.5 }}
-                  >
-                    <Link to={banner.link || '/products'} className="btn-primary flex items-center gap-2 mt-4 transition-all hover:scale-105 hover:shadow-lg hover:shadow-gold/25">
-                      {banner.buttonText || 'Explore Offers'} <FiArrowRight />
-                    </Link>
-                  </motion.div>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-
-          {/* Carousel Dots */}
-          {banners.length > 1 && (
-            <div className="absolute bottom-8 left-0 right-0 z-20 flex justify-center gap-3">
-              {banners.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentIndex(idx)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    idx === currentIndex ? 'bg-gold w-8' : 'bg-white/50 hover:bg-white'
-                  }`}
-                  aria-label={`Go to slide ${idx + 1}`}
-                />
-              ))}
+      {/* HERO SECTION - NYKAA STYLE PINK BANNER */}
+      <section className="relative w-full overflow-hidden mt-1 bg-gradient-to-r from-pink-100 via-pink-200 to-pink-100">
+        <Link to="/products?isOnSale=true" className="block relative w-full h-[300px] md:h-[450px] bg-gradient-to-r from-pink-400 via-pink-500 to-fuchsia-600 flex items-center justify-center overflow-hidden group">
+          {/* Decorative Background Elements */}
+          <div className="absolute inset-0 opacity-40 bg-[url('https://images.unsplash.com/photo-1557672172-298e090bd0f1?auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center mix-blend-overlay"></div>
+          
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between w-full max-w-7xl px-4 md:px-12 h-full">
+            {/* Text Side */}
+            <div className="flex flex-col items-center md:items-start text-white pt-8 md:pt-0 transform transition-transform group-hover:scale-105">
+              <span className="text-xl md:text-3xl font-black italic tracking-tighter mb-2">STYLEVERSE</span>
+              <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-pink-100 drop-shadow-lg leading-none">
+                HOT PINK <span className="text-white">SALE</span>
+              </h1>
             </div>
-          )}
-        </section>
-      )}
+            
+            {/* Discount Badge */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-blue-300 to-cyan-400 border-4 border-white flex flex-col items-center justify-center shadow-2xl z-20 transform -rotate-12 group-hover:rotate-0 transition-transform duration-500">
+              <span className="text-white font-black text-sm md:text-xl leading-none">UP TO</span>
+              <span className="text-white font-black text-3xl md:text-5xl leading-none">80%</span>
+              <span className="text-white font-black text-sm md:text-xl leading-none">OFF*</span>
+            </div>
+            
+            {/* Models Image (Using an Unsplash image of fashion models) */}
+            <div className="h-[200px] md:h-full flex items-end">
+              <img 
+                src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80" 
+                alt="Models" 
+                className="h-full object-cover rounded-t-full border-4 border-b-0 border-white/20 shadow-2xl z-10 hidden md:block w-[350px]"
+              />
+            </div>
+          </div>
+        </Link>
+        
+        {/* POWERED BY BAR */}
+        <div className="w-full bg-pink-50 py-3 border-y border-pink-200">
+          <div className="max-w-7xl mx-auto px-4 flex items-center justify-center gap-4 md:gap-12 flex-wrap text-sm md:text-base font-bold text-gray-800">
+            <span className="text-gray-500">Powered By :</span>
+            <span className="text-red-700 italic tracking-tighter">FLYING MACHINE</span>
+            <span className="border-l border-gray-300 h-6"></span>
+            <span className="tracking-widest">THE HOUSE OF RARE</span>
+            <span className="border-l border-gray-300 h-6"></span>
+            <span className="text-black font-serif text-lg">Inc.5</span>
+            <span className="border-l border-gray-300 h-6 hidden md:block"></span>
+            <span className="text-gray-500 hidden md:inline">In Association with:</span>
+            <span className="font-script text-xl hidden md:inline">Pepe Jeans</span>
+            <span className="border-l border-gray-300 h-6 hidden md:block"></span>
+            <span className="text-blue-600 font-black tracking-tighter text-lg hidden md:inline">CAHOOT</span>
+          </div>
+        </div>
+      </section>
 
-      {/* FEATURED CATEGORIES */}
-      <motion.section
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        variants={staggerContainer}
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full"
-      >
-        <motion.div variants={fadeInUp} className="flex flex-col gap-2 mb-8">
-          <span className="text-gold font-semibold uppercase tracking-widest text-xs">Curated Collections</span>
-          <h2 className="text-3xl font-display font-bold">Shop by Category</h2>
-          <div className="gold-line"></div>
-        </motion.div>
-        <motion.div variants={staggerContainer} className="grid grid-cols-2 md:grid-cols-5 gap-6">
-          {categories.slice(0, 5).map((cat) => (
-            <motion.div
-              key={cat._id}
-              variants={fadeInUp}
-              whileHover={{ y: -8, transition: { duration: 0.2 } }}
+      {/* CIRCULAR CATEGORIES */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mt-6">
+        <div className="flex gap-4 md:gap-8 overflow-x-auto no-scrollbar py-4 px-2 snap-x snap-mandatory justify-start md:justify-center items-start">
+          {[
+            { name: 'Westernwear', image: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=200', link: '/products?category=women' },
+            { name: 'Indianwear', image: 'https://images.unsplash.com/photo-1583391733981-8498408ee4b2?w=200', link: '/products?category=ethnic-wear' },
+            { name: 'Men', image: 'https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=200', link: '/products?category=men' },
+            { name: 'Kids', image: 'https://images.unsplash.com/photo-1503944168849-8bf86875bbd8?w=200', link: '/products?category=kids' },
+            { name: 'Footwear', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200', link: '/products?category=footwear' },
+            { name: 'Lingerie', image: 'https://images.unsplash.com/photo-1528731700622-c3a502447477?w=200', link: '/products?category=women' },
+            { name: 'Bags', image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=200', link: '/products?category=accessories' },
+            { name: 'Sportswear', image: 'https://images.unsplash.com/photo-1517963879433-6ad2b056d712?w=200', link: '/products?category=sports-wear' },
+            { name: 'Jewellery', image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=200', link: '/products?category=accessories' },
+            { name: 'Sneakers', image: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=200', link: '/products?category=footwear' },
+          ].map((cat, idx) => (
+            <Link 
+              to={cat.link} 
+              key={idx} 
+              className="flex flex-col items-center gap-3 shrink-0 snap-center group w-20 md:w-24"
             >
-              <Link
-                to={`/products?category=${cat._id}`}
-                className="group relative aspect-[3/4] rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 block"
-              >
-                <img
-                  src={cat.image}
-                  alt={cat.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 text-white">
-                  <h3 className="font-display font-bold text-lg tracking-wide">{cat.name}</h3>
-                  <span className="text-xs text-charcoal-300 flex items-center gap-1 group-hover:text-gold transition-colors mt-1">
-                    Explore <FiArrowRight />
-                  </span>
+              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full p-1 bg-gradient-to-br from-pink-300 to-fuchsia-200 group-hover:from-pink-400 group-hover:to-fuchsia-400 transition-colors shadow-sm">
+                <div className="w-full h-full rounded-full overflow-hidden bg-white">
+                  <img 
+                    src={cat.image} 
+                    alt={cat.name} 
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                  />
                 </div>
-              </Link>
-            </motion.div>
+              </div>
+              <span className="text-[13px] font-bold text-gray-800 text-center leading-tight px-2 bg-blue-50/50 rounded-full w-full">
+                {cat.name}
+              </span>
+            </Link>
           ))}
-        </motion.div>
-      </motion.section>
+        </div>
+      </section>
 
       {/* ⚡ DEALS TOO HOT TO MISS - CAROUSEL */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative">
