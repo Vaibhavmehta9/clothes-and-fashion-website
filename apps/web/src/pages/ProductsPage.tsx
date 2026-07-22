@@ -85,7 +85,7 @@ const MOCK_FALLBACK_PRODUCTS: Product[] = [
     _id: 'mock-w1',
     name: 'Zara Floral Print Midi Dress',
     slug: 'zara-floral-print-midi-dress',
-    thumbnail: 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=600',
+    thumbnail: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=600&q=80',
     basePrice: 2990, baseMrp: 4990, baseDiscount: 40, rating: 4.8, reviewCount: 124,
     isNewArrival: true, brand: { name: 'Zara' }
   },
@@ -93,7 +93,7 @@ const MOCK_FALLBACK_PRODUCTS: Product[] = [
     _id: 'mock-w2',
     name: "Levi's Women's High Rise Skinny Jeans",
     slug: 'levis-womens-high-rise-skinny-jeans',
-    thumbnail: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=600',
+    thumbnail: 'https://images.unsplash.com/photo-1582142307575-38ef4c995f7c?auto=format&fit=crop&w=600&q=80',
     basePrice: 3499, baseMrp: 4999, baseDiscount: 30, rating: 4.6, reviewCount: 89,
     brand: { name: "Levi's" }
   },
@@ -101,7 +101,7 @@ const MOCK_FALLBACK_PRODUCTS: Product[] = [
     _id: 'mock-w3',
     name: 'H&M Satin Wrap Blouse',
     slug: 'hm-satin-wrap-blouse',
-    thumbnail: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600',
+    thumbnail: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=600&q=80',
     basePrice: 1999, baseMrp: 2999, baseDiscount: 33, rating: 4.7, reviewCount: 56,
     brand: { name: 'H&M' }
   },
@@ -109,7 +109,7 @@ const MOCK_FALLBACK_PRODUCTS: Product[] = [
     _id: 'mock-w4',
     name: 'ONLY Off-Shoulder Summer Top',
     slug: 'only-off-shoulder-summer-top',
-    thumbnail: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600',
+    thumbnail: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80',
     basePrice: 1499, baseMrp: 2499, baseDiscount: 40, rating: 4.5, reviewCount: 42,
     brand: { name: 'ONLY' }
   },
@@ -117,7 +117,7 @@ const MOCK_FALLBACK_PRODUCTS: Product[] = [
     _id: 'mock-m1',
     name: "Levi's 511 Slim Fit Men's Jeans",
     slug: 'levis-511-slim-fit-mens-jeans',
-    thumbnail: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=600',
+    thumbnail: 'https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=600&q=80',
     basePrice: 3299, baseMrp: 4499, baseDiscount: 27, rating: 4.9, reviewCount: 210,
     brand: { name: "Levi's" }
   },
@@ -125,7 +125,7 @@ const MOCK_FALLBACK_PRODUCTS: Product[] = [
     _id: 'mock-m2',
     name: 'Nike Dri-FIT Men Training Hoodie',
     slug: 'nike-dri-fit-men-training-hoodie',
-    thumbnail: 'https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=600',
+    thumbnail: 'https://images.unsplash.com/photo-1556821840-3a63f15732ce?auto=format&fit=crop&w=600&q=80',
     basePrice: 4295, baseMrp: 5495, baseDiscount: 22, rating: 4.8, reviewCount: 178,
     brand: { name: 'Nike' }
   },
@@ -133,7 +133,7 @@ const MOCK_FALLBACK_PRODUCTS: Product[] = [
     _id: 'mock-k1',
     name: 'H&M Kids Cotton Graphic Hoodie',
     slug: 'hm-kids-cotton-graphic-hoodie',
-    thumbnail: 'https://images.unsplash.com/photo-1503944168849-8bf86875bbd8?w=600',
+    thumbnail: 'https://images.unsplash.com/photo-1503944168849-8bf86875bbd8?auto=format&fit=crop&w=600&q=80',
     basePrice: 1299, baseMrp: 1999, baseDiscount: 35, rating: 4.9, reviewCount: 64,
     brand: { name: 'H&M' }
   },
@@ -141,7 +141,7 @@ const MOCK_FALLBACK_PRODUCTS: Product[] = [
     _id: 'mock-f1',
     name: 'Nike Air Max 270 Running Shoes',
     slug: 'nike-air-max-270-running-shoes',
-    thumbnail: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600',
+    thumbnail: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80',
     basePrice: 11495, baseMrp: 13995, baseDiscount: 18, rating: 4.9, reviewCount: 340,
     brand: { name: 'Nike' }
   },
@@ -149,7 +149,7 @@ const MOCK_FALLBACK_PRODUCTS: Product[] = [
     _id: 'mock-e1',
     name: 'BIBA Embroidered Anarkali Kurti Set',
     slug: 'biba-embroidered-anarkali-kurti-set',
-    thumbnail: 'https://images.unsplash.com/photo-1617627143233-4df547d06a15?w=600',
+    thumbnail: 'https://images.unsplash.com/photo-1617627143233-4df547d06a15?auto=format&fit=crop&w=600&q=80',
     basePrice: 3999, baseMrp: 5999, baseDiscount: 33, rating: 4.8, reviewCount: 95,
     brand: { name: 'BIBA' }
   }
