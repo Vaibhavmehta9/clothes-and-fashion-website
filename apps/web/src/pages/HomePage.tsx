@@ -306,11 +306,11 @@ const HomePage: React.FC = () => {
         <div className="flex gap-4 md:gap-8 overflow-x-auto no-scrollbar py-4 px-2 snap-x snap-mandatory justify-start md:justify-center items-start">
           {[
             { name: 'Westernwear', image: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=200', link: '/products?category=women' },
-            { name: 'Indianwear', image: 'https://images.unsplash.com/photo-1583391733981-8498408ee4b2?w=200', link: '/products?category=ethnic-wear' },
+            { name: 'Indianwear', image: 'https://images.unsplash.com/photo-1617627143233-4df547d06a15?w=200', link: '/products?category=ethnic-wear' },
             { name: 'Men', image: 'https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=200', link: '/products?category=men' },
             { name: 'Kids', image: 'https://images.unsplash.com/photo-1503944168849-8bf86875bbd8?w=200', link: '/products?category=kids' },
             { name: 'Footwear', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200', link: '/products?category=footwear' },
-            { name: 'Lingerie', image: 'https://images.unsplash.com/photo-1528731700622-c3a502447477?w=200', link: '/products?category=women' },
+            { name: 'Lingerie', image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=200', link: '/products?category=women' },
             { name: 'Bags', image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=200', link: '/products?category=accessories' },
             { name: 'Sportswear', image: 'https://images.unsplash.com/photo-1517963879433-6ad2b056d712?w=200', link: '/products?category=sports-wear' },
             { name: 'Jewellery', image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=200', link: '/products?category=accessories' },

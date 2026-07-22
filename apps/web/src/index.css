@@ -219,7 +219,7 @@
   }
 
   .gold-line {
-    @apply w-12 h-1 bg-gold rounded-full;
+    @apply h-1 w-24 bg-gradient-to-r from-gold via-gold-light to-transparent rounded-full;
   }
 
   /* ---- SKELETON LOADING ---- */
