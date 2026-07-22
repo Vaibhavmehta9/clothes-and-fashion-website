@@ -59,9 +59,22 @@ export const getProducts = asyncHandler(async (req: AuthRequest, res: Response) 
     if (mongoose.Types.ObjectId.isValid(category as string)) {
       filter.category = category;
     } else {
-      const cat = await Category.findOne({ slug: String(category).toLowerCase() });
-      if (cat) filter.category = cat._id;
-      else filter.category = new mongoose.Types.ObjectId();
+      const cat = await Category.findOne({
+        $or: [
+          { slug: String(category).toLowerCase() },
+          { name: { $regex: new RegExp(`^${category}$`, 'i') } }
+        ]
+      });
+      if (cat) {
+        const subCats = await Category.find({ parent: cat._id }).select('_id');
+        const catIds = [cat._id, ...subCats.map(c => c._id)];
+        filter.category = { $in: catIds };
+      } else {
+        filter.$or = [
+          { tags: { $in: [String(category).toLowerCase()] } },
+          { name: { $regex: String(category), $options: 'i' } }
+        ];
+      }
     }
   }
   if (brand) {

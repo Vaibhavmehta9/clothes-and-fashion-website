@@ -154,8 +154,9 @@ const ProductsPage: React.FC = () => {
 
   const activeFilters: { key: string; label: string; value: string }[] = [];
   if (categoryFilter) {
-    const cat = categories.find(c => c._id === categoryFilter);
+    const cat = categories.find(c => c._id === categoryFilter || c.slug === categoryFilter);
     if (cat) activeFilters.push({ key: 'category', label: 'Category', value: cat.name });
+    else activeFilters.push({ key: 'category', label: 'Category', value: categoryFilter.charAt(0).toUpperCase() + categoryFilter.slice(1) });
   }
   if (brandFilter) {
     const br = brands.find(b => b._id === brandFilter);
@@ -218,7 +219,7 @@ const ProductsPage: React.FC = () => {
               <div className="flex flex-col gap-1 pb-4">
                 <button onClick={() => updateFilters('category', '')} className={`text-left px-2 py-1.5 rounded-lg text-sm transition-all ${!categoryFilter ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`}>All Categories</button>
                 {categories.map(cat => (
-                  <button key={cat._id} onClick={() => updateFilters('category', cat._id)} className={`text-left px-2 py-1.5 rounded-lg text-sm transition-all ${categoryFilter === cat._id ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`}>{cat.name}</button>
+                  <button key={cat._id} onClick={() => updateFilters('category', cat.slug || cat._id)} className={`text-left px-2 py-1.5 rounded-lg text-sm transition-all ${categoryFilter === cat._id || categoryFilter === cat.slug ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`}>{cat.name}</button>
                 ))}
               </div>
             </motion.div>
