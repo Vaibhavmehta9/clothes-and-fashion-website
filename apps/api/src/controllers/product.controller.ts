@@ -70,8 +70,8 @@ export const getProducts = asyncHandler(async (req: AuthRequest, res: Response) 
         });
 
         const catOrConditions: Record<string, unknown>[] = [
-          { tags: { $in: [categoryStr.toLowerCase()] } },
-          { name: { $regex: new RegExp(escaped, 'i') } }
+          { tags: { $in: [categoryStr] } },
+          { name: { $regex: new RegExp(`\\b${escaped}\\b`, 'i') } }
         ];
 
         if (cat) {

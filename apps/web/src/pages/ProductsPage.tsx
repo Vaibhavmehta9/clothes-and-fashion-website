@@ -155,6 +155,27 @@ const MOCK_FALLBACK_PRODUCTS: Product[] = [
   }
 ];
 
+const filterFallbackProducts = (term: string) => {
+  const cat = term.trim().toLowerCase();
+  if (!cat) return MOCK_FALLBACK_PRODUCTS;
+
+  if (cat === 'women' || cat.includes('women') || cat === 'ethnic-wear') {
+    return MOCK_FALLBACK_PRODUCTS.filter(p => p._id.startsWith('mock-w') || p._id.startsWith('mock-e'));
+  }
+  if (cat === 'men' || (cat.includes('men') && !cat.includes('women'))) {
+    return MOCK_FALLBACK_PRODUCTS.filter(p => p._id.startsWith('mock-m'));
+  }
+  if (cat.includes('kid')) {
+    return MOCK_FALLBACK_PRODUCTS.filter(p => p._id.startsWith('mock-k'));
+  }
+  if (cat.includes('footwear') || cat.includes('sneaker') || cat.includes('shoe')) {
+    return MOCK_FALLBACK_PRODUCTS.filter(p => p._id.startsWith('mock-f'));
+  }
+  return MOCK_FALLBACK_PRODUCTS.filter(p => 
+    p.name.toLowerCase().includes(cat) || p.slug.includes(cat)
+  );
+};
+
   // Reset & fetch page 1 whenever filters change
   useEffect(() => {
     currentPage.current = 1;
@@ -169,32 +190,14 @@ const MOCK_FALLBACK_PRODUCTS: Product[] = [
           setProducts(data.data);
           setPagination(data.pagination);
         } else {
-          const catTerm = (categoryFilter || searchQuery || '').toLowerCase();
-          const filteredFallback = MOCK_FALLBACK_PRODUCTS.filter(p => 
-            !catTerm || 
-            p.name.toLowerCase().includes(catTerm) || 
-            p.slug.includes(catTerm) ||
-            (catTerm.includes('women') && (p._id.startsWith('mock-w') || p.name.toLowerCase().includes('zara') || p.name.toLowerCase().includes('women'))) ||
-            (catTerm.includes('men') && (p._id.startsWith('mock-m') || p.name.toLowerCase().includes('men'))) ||
-            (catTerm.includes('kid') && p._id.startsWith('mock-k')) ||
-            (catTerm.includes('footwear') && p._id.startsWith('mock-f'))
-          );
-          setProducts(filteredFallback.length > 0 ? filteredFallback : MOCK_FALLBACK_PRODUCTS);
-          setPagination({ total: filteredFallback.length || MOCK_FALLBACK_PRODUCTS.length, page: 1, limit: PAGE_SIZE, pages: 1 });
+          const filtered = filterFallbackProducts(categoryFilter || searchQuery || '');
+          setProducts(filtered);
+          setPagination({ total: filtered.length, page: 1, limit: PAGE_SIZE, pages: 1 });
         }
       } catch {
-        const catTerm = (categoryFilter || searchQuery || '').toLowerCase();
-        const filteredFallback = MOCK_FALLBACK_PRODUCTS.filter(p => 
-          !catTerm || 
-          p.name.toLowerCase().includes(catTerm) || 
-          p.slug.includes(catTerm) ||
-          (catTerm.includes('women') && (p._id.startsWith('mock-w') || p.name.toLowerCase().includes('zara') || p.name.toLowerCase().includes('women'))) ||
-          (catTerm.includes('men') && (p._id.startsWith('mock-m') || p.name.toLowerCase().includes('men'))) ||
-          (catTerm.includes('kid') && p._id.startsWith('mock-k')) ||
-          (catTerm.includes('footwear') && p._id.startsWith('mock-f'))
-        );
-        setProducts(filteredFallback.length > 0 ? filteredFallback : MOCK_FALLBACK_PRODUCTS);
-        setPagination({ total: filteredFallback.length || MOCK_FALLBACK_PRODUCTS.length, page: 1, limit: PAGE_SIZE, pages: 1 });
+        const filtered = filterFallbackProducts(categoryFilter || searchQuery || '');
+        setProducts(filtered);
+        setPagination({ total: filtered.length, page: 1, limit: PAGE_SIZE, pages: 1 });
       } finally {
         setIsLoading(false);
       }
